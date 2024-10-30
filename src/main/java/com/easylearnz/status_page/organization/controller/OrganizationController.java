@@ -17,13 +17,13 @@ import java.util.List;
 public class OrganizationController {
     private final OrganizationService organizationService;
 
-    @PostMapping("/organization")
+    @PostMapping("/organizations")
     public ResponseEntity<?> createOrganization(@RequestBody CreateOrganizationRequest request) {
         CreateOrganizationResponse res = organizationService.createOrganization(request);
         return new ResponseEntity<>(res, HttpStatus.CREATED);
     }
 
-    @GetMapping("/public/organization")
+    @GetMapping("/public/organizations")
     public ResponseEntity<?> fetchOrganizations(@RequestParam(value = "query", required = false) String query) {
         List<OrganizationResponse> res = organizationService.fetchOrganizations(query);
         return new ResponseEntity<>(res, HttpStatus.OK);
