@@ -1,5 +1,6 @@
 package com.easylearnz.status_page.models;
 
+import com.easylearnz.status_page.models.enums.IncidentStatus;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -19,9 +20,15 @@ public class IncidentUpdate {
     @JoinColumn(name = "user_id")
     private User user;
     private String message;
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private IncidentStatus status;
     private String updateType;
     private Boolean isPublic = true;
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
+
+    @PrePersist
+    public void onCreate() {
+        this.createdAt = LocalDateTime.now();
+    }
 }

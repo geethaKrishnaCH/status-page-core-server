@@ -1,5 +1,6 @@
 package com.easylearnz.status_page.models;
 
+import com.easylearnz.status_page.models.enums.IncidentStatus;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -15,14 +16,11 @@ public class Incident {
     @ManyToOne
     @JoinColumn(name = "organization_id", nullable = false)
     private Organization organization;
-    @ManyToOne
-    @JoinColumn(name = "service_id")
-    private Service service;
     private String title;
     private String description;
-    private String status = "Open";
+    @Enumerated(EnumType.STRING)
+    private IncidentStatus status;
     private String severity;
-    private String incidentType;
     @ManyToOne
     @JoinColumn(name = "assignee_id")
     private User assignee;
@@ -30,4 +28,16 @@ public class Incident {
     private LocalDateTime createdAt;
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
+
+    @PrePersist
+    public void onCreate() {
+        LocalDateTime now = LocalDateTime.now();
+        this.createdAt = now;
+        this.updatedAt = now;
+    }
+
+    @PreUpdate
+    public void onUpdate() {
+        this.updatedAt = LocalDateTime.now();
+    }
 }

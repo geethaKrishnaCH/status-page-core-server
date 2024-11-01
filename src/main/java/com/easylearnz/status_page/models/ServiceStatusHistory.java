@@ -7,23 +7,20 @@ import java.time.LocalDateTime;
 
 @Data
 @Entity
-@Table(name = "users")
-public class User {
+@Table(name = "service_status_history")
+public class ServiceStatusHistory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Column(name = "user_id", nullable = false, unique = true)
-    private String userId;
-    private String name;
-    @Column(unique = true, nullable = false)
-    private String email;
-    private boolean active;
-    @Column(name = "created_at", updatable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "service_id", nullable = false)
+    private OrgService service;
+    private String status;
+    @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
     @PrePersist
     public void onCreate() {
         this.createdAt = LocalDateTime.now();
-
     }
 }

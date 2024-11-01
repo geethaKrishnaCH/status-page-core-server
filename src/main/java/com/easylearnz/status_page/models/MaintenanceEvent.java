@@ -17,7 +17,7 @@ public class MaintenanceEvent {
     private Organization organization;
     @ManyToOne
     @JoinColumn(name = "service_id")
-    private Service service;
+    private OrgService service;
     private String title;
     private String description;
     @Column(name = "start_time")
@@ -29,4 +29,15 @@ public class MaintenanceEvent {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
+    @PrePersist
+    public void onCreate() {
+        LocalDateTime now = LocalDateTime.now();
+        this.createdAt = now;
+        this.updatedAt = now;
+    }
+
+    @PreUpdate
+    public void onUpdate() {
+        this.updatedAt = LocalDateTime.now();
+    }
 }

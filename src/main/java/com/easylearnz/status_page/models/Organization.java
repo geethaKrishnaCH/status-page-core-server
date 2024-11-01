@@ -23,8 +23,16 @@ public class Organization {
     private LocalDateTime createdAt;
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
-    @OneToMany(mappedBy = "organization")
-    private Set<User> users;
-    @OneToMany(mappedBy = "organization")
-    private Set<Service> services;
+
+    @PrePersist
+    public void onCreate() {
+        LocalDateTime now = LocalDateTime.now();
+        this.createdAt = now;
+        this.updatedAt = now;
+    }
+
+    @PreUpdate
+    public void onUpdate() {
+        this.updatedAt = LocalDateTime.now();
+    }
 }

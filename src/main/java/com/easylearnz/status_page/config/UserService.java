@@ -1,5 +1,6 @@
 package com.easylearnz.status_page.config;
 
+import com.easylearnz.status_page.auth0.service.Auth0UserManagementService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -19,6 +20,8 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class UserService {
+
+    private final Auth0UserManagementService auth0UserManagementService;
 
     public String getCurrentUserSubject() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -47,9 +50,15 @@ public class UserService {
         throw new RuntimeException("No authenticated user found");
     }
 
-    public void updateSecurityContext(List<String> roles) {
+    public List<String> extractUserRoles(String userId, String organizationId) {
+        List<String> roles = auth0UserManagementService.getRolesForUserInOrganization(organizationId, userId);
+        return roles;
+    }
+
+    public void updateSecurityContext(String userId, String organizationId) {
+        List<String> roles = extractUserRoles(userId, organizationId);
         Collection<GrantedAuthority> authorities = roles.stream()
-                .map(role -> new SimpleGrantedAuthority(role.toUpperCase()))
+                .map(role -> new SimpleGrantedAuthority("ROLE_" + role.toUpperCase()))
                 .collect(Collectors.toList());
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.getPrincipal() instanceof Jwt) {

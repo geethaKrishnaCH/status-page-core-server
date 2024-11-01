@@ -1,4 +1,4 @@
-package com.easylearnz.status_page.organization.dto;
+package com.easylearnz.status_page.core.organization.dto;
 
 import lombok.Data;
 

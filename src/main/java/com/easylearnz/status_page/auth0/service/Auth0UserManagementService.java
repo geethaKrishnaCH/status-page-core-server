@@ -1,9 +1,6 @@
 package com.easylearnz.status_page.auth0.service;
 
-import com.easylearnz.status_page.auth0.dto.Auth0AddUserToOrganizationRequest;
-import com.easylearnz.status_page.auth0.dto.Auth0AssignUserRoleToOrganizationRequest;
-import com.easylearnz.status_page.auth0.dto.Auth0CreateOrganizationResponse;
-import com.easylearnz.status_page.auth0.dto.Auth0RoleResponse;
+import com.easylearnz.status_page.auth0.dto.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
@@ -67,7 +64,7 @@ public class Auth0UserManagementService {
             headers.setBearerAuth(auth0TokenService.getAuth0ManagementToken());
             headers.setContentType(MediaType.APPLICATION_JSON);
 
-            HttpEntity<Auth0AssignUserRoleToOrganizationRequest> entity = new HttpEntity<>(headers);
+            HttpEntity<?> entity = new HttpEntity<>(headers);
             String urlTemplate = "organizations/{orgId}/members/{userId}/roles";
             String url = urlTemplate.replace("{orgId}", organizationId)
                     .replace("{userId}", userId);
@@ -84,5 +81,24 @@ public class Auth0UserManagementService {
         } catch (Exception e) {
             return Collections.emptyList();
         }
+    }
+
+    public Auth0UserInfoResponse getUserInfo(String userId) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBearerAuth(auth0TokenService.getAuth0ManagementToken());
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        HttpEntity entity = new HttpEntity<>(headers);
+        String urlTemplate = "users/{userId}";
+        String url = urlTemplate.replace("{userId}", userId);
+        ResponseEntity<Auth0UserInfoResponse> response = restTemplate.exchange(
+                domain + url,
+                HttpMethod.GET,
+                entity,
+                Auth0UserInfoResponse.class
+        );
+
+        return response.getBody();
+
     }
 }
