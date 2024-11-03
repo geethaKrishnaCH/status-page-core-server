@@ -1,0 +1,54 @@
+version: '3.8'
+services:
+  backend:
+    image: status-page-backend:v1
+    environment: 
+      	SERVER_PORT: 8090
+      	# URI for the JWT token issuer, typically your Auth0 domain or authorization server URL
+	JWT_ISSUER_URI:
+	# Database configuration
+	# Hostname or IP of the database
+      	DB_HOST: db
+      	DB_PORT: 3306
+	DB_NAME: statusPage
+	# Database username for accessing the database
+	DB_USER: 
+      	# Database password for accessing the database
+	DB_PASSWORD: 
+      	# Auth0 management API configuration
+	# Auth0 domain used to generate management tokens
+	AUTH0_MANAGEMENT_TOKEN_DOMAIN: 
+	# Client ID for Auth0 Management API access     	
+	AUTH0_MANAGEMENT_TOKEN_CLIENT_ID: 
+      	# Client Secret for Auth0 Management API access
+	AUTH0_MANAGEMENT_TOKEN_CLIENT_SECRET: 
+      	# Audience URL for the Auth0 Management API
+	AUTH0_MANAGEMENT_TOKEN_AUDIENCE: 
+      	# Domain for the Auth0 Management API
+	AUTH0_MANAGEMENT_API_DOMAIN: 
+      	# Default database connection ID for Auth0
+	AUTH0_DEFAULT_DB_CONNECTION_ID: 
+	# Client JWT token audience for validation
+      	AUTH0_CLIENT_TOKEN_AUDIENCE: 
+      	# Auth0 admin role id
+	AUTH0_ADMIN_ROLE_ID: 
+      	# client_id of SPA application
+      	AUTH0_ORGANIZATION_INVITE_CLIENT_ID:
+    ports:
+      - 8080:8090
+    depends_on:
+      - db
+  db:
+    image: mysql:8.0.38-debian
+    environment:
+      MYSQL_ROOT_PASSWORD: 
+      MYSQL_USER: 
+      MYSQL_PASSWORD: 
+      MYSQL_DATABASE: statusPage
+    # ports:
+    #  - 3306:3306
+    volumes:
+      - test_mysql_data:/var/lib/mysql
+volumes:
+  test_mysql_data:
+
