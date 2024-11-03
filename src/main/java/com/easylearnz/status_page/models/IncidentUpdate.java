@@ -19,11 +19,10 @@ public class IncidentUpdate {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+    @Column(columnDefinition = "TEXT")
     private String message;
     @Enumerated(EnumType.STRING)
     private IncidentStatus status;
-    private String updateType;
-    private Boolean isPublic = true;
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 

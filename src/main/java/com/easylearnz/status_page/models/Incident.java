@@ -17,10 +17,10 @@ public class Incident {
     @JoinColumn(name = "organization_id", nullable = false)
     private Organization organization;
     private String title;
+    @Column(columnDefinition = "TEXT")
     private String description;
     @Enumerated(EnumType.STRING)
     private IncidentStatus status;
-    private String severity;
     @ManyToOne
     @JoinColumn(name = "assignee_id")
     private User assignee;

@@ -10,6 +10,7 @@ public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    private String roleId;
     @ManyToOne
     @JoinColumn(name = "organization_id", nullable = false)
     private Organization organization;

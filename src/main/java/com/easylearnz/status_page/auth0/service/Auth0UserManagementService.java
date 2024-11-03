@@ -21,6 +21,12 @@ public class Auth0UserManagementService {
     @Value("${auth0.management.api.domain}")
     private String domain;
 
+    @Value("${auth0.organization.invitation.client_id}")
+    private String invitationsClientId;
+
+    @Value("${auth0.default.db.connection}")
+    private String defaultConnectionId;
+
     public boolean addUserToOrganization(String organizationId, String userId) {
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(auth0TokenService.getAuth0ManagementToken());
@@ -99,6 +105,27 @@ public class Auth0UserManagementService {
         );
 
         return response.getBody();
+    }
 
+    public Auth0InvitationResponse createUserInvitationToOrganization(String organizationId, String email, String inviter, String roleId) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBearerAuth(auth0TokenService.getAuth0ManagementToken());
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        Auth0InvitationRequest req = Auth0InvitationRequest
+                .builder()
+                .clientId(invitationsClientId)
+                .connectionId(defaultConnectionId)
+                .roles(Arrays.asList(roleId))
+                .build();
+        req.setInviter(inviter);
+        req.setInvitee(email);
+
+        HttpEntity<Auth0InvitationRequest> entity = new HttpEntity<>(req, headers);
+        String urlTemplate = "organizations/{orgId}/invitations";
+        String url = urlTemplate.replace("{orgId}", organizationId);
+        ResponseEntity<Auth0InvitationResponse> res = restTemplate.postForEntity(
+                domain + url, entity, Auth0InvitationResponse.class);
+        return res.getBody();
     }
 }

@@ -13,9 +13,11 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class UserInfoResponse {
+public class OrgUserInfoResponse {
+    private int id;
     private String name;
+    private String email;
     private String userId;
-    private String organizationId;
+    private String status;
     private List<String> roles;
 }

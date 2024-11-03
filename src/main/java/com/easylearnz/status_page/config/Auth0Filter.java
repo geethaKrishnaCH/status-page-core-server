@@ -25,9 +25,12 @@ public class Auth0Filter extends OncePerRequestFilter {
             if (token != null) {
                 String organizationId = userService.extractOrganizationId();
                 String userId = userService.getCurrentUserSubject();
+                String currentOrganizationId = request.getHeader("X-Organization-Id");
+                request.setAttribute("currentOrganizationId", currentOrganizationId);
+                request.setAttribute("tokenOrganizationId", organizationId);
                 request.setAttribute("userId", userId);
 
-                if (organizationId != null) {
+                if (organizationId != null && organizationId.equals(currentOrganizationId)) {
                     request.setAttribute("organizationId", organizationId);
                     userService.updateSecurityContext(userId, organizationId);
                 }

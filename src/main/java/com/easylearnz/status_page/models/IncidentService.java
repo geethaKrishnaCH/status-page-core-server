@@ -22,5 +22,6 @@ public class IncidentService {
     private OrgService service;
 
     @Column(name = "service_status")
+    @Enumerated(EnumType.STRING)
     private ServiceStatus serviceStatus;
 }

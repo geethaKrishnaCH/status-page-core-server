@@ -1,5 +1,6 @@
 package com.easylearnz.status_page.models;
 
+import com.easylearnz.status_page.models.enums.ServiceStatus;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -15,7 +16,8 @@ public class ServiceStatusHistory {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "service_id", nullable = false)
     private OrgService service;
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private ServiceStatus status;
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
 

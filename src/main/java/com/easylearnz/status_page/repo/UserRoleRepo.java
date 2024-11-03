@@ -1,5 +1,6 @@
 package com.easylearnz.status_page.repo;
 
+import com.easylearnz.status_page.models.Role;
 import com.easylearnz.status_page.models.UserRole;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -12,4 +13,6 @@ import java.util.List;
 public interface UserRoleRepo extends JpaRepository<UserRole, Integer> {
     @Query("SELECT ur FROM UserRole ur WHERE ur.user.userId=:userId")
     List<UserRole> findByUserId(@Param("userId") String userId);
+
+    List<UserRole> findByRoleIn(List<Role> roles);
 }
