@@ -58,7 +58,8 @@ public class SecurityConfig {
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
         //config.setAllowedOrigins(Arrays.asList("http://localhost:5173", "https://status-page-client.vercel.app")); // Your React app URL
-        config.addAllowedOrigin("*"); // Your React app URL
+        config.addAllowedOrigin("https://status-page-client.vercel.app"); // Your React app URL
+        config.addAllowedOrigin("https://legal-enormous-boxer.ngrok-free.app"); // Your React app URL
         config.setAllowedMethods(Arrays.asList("*"));
         config.addAllowedHeader("*");
         config.setAllowCredentials(true);
