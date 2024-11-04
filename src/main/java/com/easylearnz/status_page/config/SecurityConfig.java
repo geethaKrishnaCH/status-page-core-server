@@ -57,7 +57,7 @@ public class SecurityConfig {
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(Arrays.asList("http://localhost:5173")); // Your React app URL
+        config.setAllowedOrigins(Arrays.asList("http://localhost:5173", "https://status-page-client-lhhtz1j71-geethas-projects-3ea6391e.vercel.app")); // Your React app URL
         config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
         config.setAllowedHeaders(Arrays.asList("*"));
         config.setAllowCredentials(true);
