@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -58,8 +57,11 @@ public class SecurityConfig {
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
         //config.setAllowedOrigins(Arrays.asList("http://localhost:5173", "https://status-page-client.vercel.app")); // Your React app URL
-        config.addAllowedOrigin("https://status-page-client.vercel.app"); // Your React app URL
-        config.addAllowedOrigin("https://legal-enormous-boxer.ngrok-free.app"); // Your React app URL
+        config.setAllowedHeaders(Arrays.asList(
+                "http://localhost:5173",
+                "https://status-page-client.vercel.app",
+                "https://legal-enormous-boxer.ngrok-free.app")
+        );
         config.setAllowedMethods(Arrays.asList("*"));
         config.addAllowedHeader("*");
         config.setAllowCredentials(true);
